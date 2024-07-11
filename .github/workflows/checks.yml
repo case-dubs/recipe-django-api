@@ -1,0 +1,28 @@
+# where we define github actions
+---
+name: Checks
+
+# trigger
+on: [push]
+
+jobs:
+  # "test-lint" is the ID of job, in case you need to reference it
+  test-lint:
+    name: Test and Lint
+    # docker-compose comes available in this ubuntu-20.04 server
+    runs-on: ubuntu-20.04
+    steps:
+      # Authenticate with Docker Hub so that we use authenticated rate limits rather than pooled anonymous github actions rate limits
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # Checks code out inside github actions job 
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Command that runs unit tests on our project
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test"
+      - name: Lint
+        run: docker-compose run --rm app sh -c "flake8"

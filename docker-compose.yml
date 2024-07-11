@@ -1,0 +1,17 @@
+services:
+  app:
+    # build docker file inside our current(root) directory
+    build:
+      context: .
+      args:
+        # If we run using docker compose, set to dev
+        - DEV=true
+    # maps port 8000 on lock machine to port 8000 on docker container. how we can access network on local machine when we want to connect to our server
+    ports:
+      - "8000:8000"
+    # maps/syncs app directory on local project to app container on docker
+    volumes:
+      - ./app:/app
+    # default command used to run service 
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"

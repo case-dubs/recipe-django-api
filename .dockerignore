@@ -1,0 +1,20 @@
+# specifies a list of files that will be excluded from docker context
+# want to exclude files docker doesn't need to be concerned with
+# Git
+.git
+.gitignore
+
+# Docker 
+# docker hidden file for local machine
+.docker
+
+# Python
+# Python cache files 
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+.env/
+.venv/
+# already have virtual environment on docker
+venv/
