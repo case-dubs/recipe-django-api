@@ -21,6 +21,11 @@ ARG DEV=false
 # Specify a single run command broken into multiple lines for efficiency
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    # install postgresql client
+    apk add --update --no-cache postgresql-client && \
+    #sets virtual dependency package - we can use this to remove this later on once we no longer need them
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev && \
     # Install requirements.txt to pip
     /py/bin/pip install -r /tmp/requirements.txt && \
     # Now that requirements.txt is installed to pip, remove unused /tmp folder to save space and speed when deploying
@@ -29,6 +34,8 @@ RUN python -m venv /py && \
         # fi ends if statement in shell file
         fi && \
     rm -rf /tmp && \
+    # remove tmp-build-deps packages that were only temporarily needed. Keeps docker file lightweight and clean
+    apk del .tmp-build-deps && \
     # adds a new user inside image. 
     # Don't to use root user. If app gets compromised, then hacker gets full access to everything on docker container
     adduser \
