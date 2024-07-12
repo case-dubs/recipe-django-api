@@ -18,7 +18,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # Checks code out inside github actions job 
+      # Checks code out inside github actions job
       - name: Checkout
         uses: actions/checkout@v2
       # Command that runs unit tests on our project

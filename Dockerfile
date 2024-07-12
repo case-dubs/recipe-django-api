@@ -10,14 +10,14 @@ COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 
 # Copy app directory that will contain our app to docker /app
 COPY ./app /app
-# Default directly that commands will be run from when we run commands on docker image 
+# Default directly that commands will be run from when we run commands on docker image
 WORKDIR /app
 # Expose port 8000 from docker to container to our local machine
 EXPOSE 8000
 
 # Creates a build argument and sets dev to false. By default, we're not running in development monde
 ARG DEV=false
-# Runs a command on python alpine image we're using. 
+# Runs a command on python alpine image we're using.
 # Specify a single run command broken into multiple lines for efficiency
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
@@ -36,7 +36,7 @@ RUN python -m venv /py && \
     rm -rf /tmp && \
     # remove tmp-build-deps packages that were only temporarily needed. Keeps docker file lightweight and clean
     apk del .tmp-build-deps && \
-    # adds a new user inside image. 
+    # adds a new user inside image.
     # Don't to use root user. If app gets compromised, then hacker gets full access to everything on docker container
     adduser \
         --disabled-password \
@@ -47,7 +47,7 @@ RUN python -m venv /py && \
 # Defines directory where all commands are run
 ENV PATH="/py/bin:$PATH"
 
-# Specifies user we're switching to 
+# Specifies user we're switching to
 USER django-user
 
 

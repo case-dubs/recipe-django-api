@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# Link to postgresql db and set environment variables 
+# Link to postgresql db and set environment variables
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

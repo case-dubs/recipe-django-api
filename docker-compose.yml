@@ -12,7 +12,7 @@ services:
     # maps/syncs app directory on local project to app container on docker
     volumes:
       - ./app:/app
-    # default command used to run service 
+    # default command used to run service
     # Adding in our wait_for_db method to avoid db/app race conditions
     # running db migrations
     # starting dev server
@@ -29,14 +29,14 @@ services:
     # App service depends on db service so it waits for db to load to load the app
     depends_on:
       - db
-  
-  db: 
+
+  db:
     image: postgres:13-alpine
     volumes:
       - dev-db-data:/var/lib/postgresql/data
     # Set initial config for database
     #this will only be used for dev server. This isn't a publically accessible database. It's just dev
-    ##WARNING: If app were actually deployed, don't hardcode variables inside sourcecode 
+    ##WARNING: If app were actually deployed, don't hardcode variables inside sourcecode
     environment:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
