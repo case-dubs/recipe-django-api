@@ -13,8 +13,13 @@ services:
     volumes:
       - ./app:/app
     # default command used to run service 
+    # Adding in our wait_for_db method to avoid db/app race conditions
+    # running db migrations
+    # starting dev server
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_for_db &&
+              python manage.py migrate &&
+              python manage.py runserver 0.0.0.0:8000"
     # variables here should match eb environment values below
     environment:
       - DB_HOST=db
