@@ -3,9 +3,9 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-import logging
+# import logging
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -35,7 +35,6 @@ class PublicUserApiTests(TestCase):
             'name': 'Test Name',
         }
 
-        logging.info('test log message - test_create_user_success')
         # POST url we'll send registration data to
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -74,7 +73,7 @@ class PublicUserApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         user_exists = get_user_model().objects.filter(
-            email = payload['email']
+            email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
 
@@ -92,16 +91,11 @@ class PublicUserApiTests(TestCase):
             'password': user_details['password'],
         }
 
-        logging.info('test log message - test_create_token_for_user')
         res = self.client.post(TOKEN_URL, payload)
-        logging.info('test_create_token_for_user res:')
-        logging.info(f'test_create_token_for_user res: {res}')
-        logging.info(f'test_create_token_for_user res.status: {res.status}')
-        logging.info(res)
         # checking that response includes a token
         self.assertIn('token', res.data)
 
-        self.assertEqual(res.status, status.HTTP_200_OK)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_create_token_bad_credentials(self):
         # Test returns error if credentials invalid
@@ -117,4 +111,4 @@ class PublicUserApiTests(TestCase):
         payload = {'email': 'test@example.com', 'password': ''}
         res = self.client.post(TOKEN_URL, payload)
         self.assertNotIn('token', res.data)
-        self.assertEqual(res.status, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
