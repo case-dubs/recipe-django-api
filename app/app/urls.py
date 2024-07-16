@@ -18,10 +18,11 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 
 urlpatterns = [
+    path('api/user/', include('user.urls')),
     path('admin/', admin.site.urls),
     # Creates the yml schema for our api
     path('api/schema', SpectacularAPIView.as_view(), name='api-schema'),
@@ -30,5 +31,6 @@ urlpatterns = [
         'api/docs/',
         SpectacularSwaggerView.as_view(url_name="api-schema"),
         name="api-docs",
-    )
+    ),
+
 ]
